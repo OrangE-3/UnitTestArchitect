@@ -53,7 +53,7 @@ tasks.register('generateTests', in.orange.unittestarchitect.TestCaseGenerator) {
 ```
 
 
-Please also set a ANDROID_SDK_DIRECTORY in your environment variables. 
+Please also set a ANDROID_SDK_DIRECTORY in your environment variables. This is not mandatory if you are not dealing with android. Non android consumers can skip this.
 Example: 
 ```
 ANDROID_SDK_DIRECTORY = "/Users/rahulchoudhary/Library/Android/sdk/platforms/android-31"
