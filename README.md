@@ -66,3 +66,85 @@ To use the task, your project should be compiled. This plugin is compatible with
 ```
 Usage of task : ./gradlew :library:generateTests
 ```
+
+## Example File: module/src/someFolder/java/
+```
+package foo.bar.tom.files
+
+
+import foo.bar.tom.models.SomeRequestObject
+import foo.bar.tom.dog.DummyClass3
+import foo.bar.tom.dog.converter.DummyClass2
+import foo.bar.tom.dog.network.service.DummyClass1
+import foo.bar.tom.dog.usecases.interfaces.MyClassInterface
+import android.content.Context
+
+class MyClass(
+    private val context: Context,
+    private val dummyClass1: DummyClass1,
+    private val dummyClass3: DummyClass3,
+    private val dummyClass2: DummyClass2
+) : MyClassInterface {
+
+    override suspend fun execute(request: SomeRequestObject) {
+        doSomeThing()
+    }
+
+    private fun doSomething(
+    ): Unit {
+        //does something
+    }
+}
+```
+
+This will generate boilerplate test classes with cases for classes without any test cases already present.
+## Example Output: module/src/testSomeFolder/java/
+### Classes Like this one, compilable, will be generated in your project's test folders.
+
+```
+package foo.bar.tom.files
+
+import foo.bar.tom.dog.DummyClass3
+import foo.bar.tom.dog.converter.DummyClass2
+import foo.bar.tom.dog.network.service.DummyClass1
+import android.content.Context
+import kotlin.Unit
+import org.junit.Before
+import org.junit.Test
+import org.mockito.Mock
+import org.mockito.MockitoAnnotations
+
+public class MyClassTest {
+  private lateinit var testObject: MyClass
+
+  @Mock
+  private lateinit var context: Context
+
+  @Mock
+  private lateinit var dummyClass1: DummyClass1
+
+  @Mock
+  private lateinit var dummyClass3: DummyClass3
+
+  @Mock
+  private lateinit var dummyClass2: DummyClass2
+
+  @Test
+  public fun execute(): Unit {
+  }
+
+  @Before
+  public fun setUp(): Unit {
+    MockitoAnnotations.initMocks(this)
+    testObject = MyClass(
+    	context,
+    	dummyClass1,
+    	dummyClass3,
+    	dummyClass2
+    )
+  }
+}
+
+```
+
+
