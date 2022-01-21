@@ -27,7 +27,7 @@ class ClassMakerImpl(
     private var classloader: ClassLoader
     init {
         val SDK_LOCATION = System.getenv("ANDROID_SDK_DIRECTORY")
-        if(SDK_LOCATION == null){
+        if(SDK_LOCATION != null){
             val ANDROID = URL("file:${SDK_LOCATION}/android.jar")
             urls += ANDROID
         }
