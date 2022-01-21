@@ -27,10 +27,10 @@ class ClassMakerImpl(
     private var classloader: ClassLoader
     init {
         val SDK_LOCATION = System.getenv("ANDROID_SDK_DIRECTORY")
-        println(SDK_LOCATION)
-        val ANDROID = URL("file:${SDK_LOCATION}/android.jar")
-        println(ANDROID.toString())
-        urls += ANDROID
+        if(SDK_LOCATION == null){
+            val ANDROID = URL("file:${SDK_LOCATION}/android.jar")
+            urls += ANDROID
+        }
         classloader = URLClassLoader(urls)
     }
     override fun makeClass(path: Path): Class<*>? {
