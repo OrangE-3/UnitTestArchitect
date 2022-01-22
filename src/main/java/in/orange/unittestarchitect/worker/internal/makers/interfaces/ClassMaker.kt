@@ -18,6 +18,6 @@ package `in`.orange.unittestarchitect.worker.internal.makers.interfaces
 
 import java.nio.file.Path
 
-interface ClassMaker {
+internal interface ClassMaker {
     fun makeClass(path: Path): Class<*>?
 }

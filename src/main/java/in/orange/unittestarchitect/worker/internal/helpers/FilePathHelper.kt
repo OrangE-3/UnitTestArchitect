@@ -18,6 +18,6 @@ package `in`.orange.unittestarchitect.worker.internal.helpers
 
 import java.nio.file.Path
 
-interface FilePathHelper {
+internal interface FilePathHelper {
     fun getFilePaths(): List<Path>
 }

@@ -18,6 +18,6 @@ package `in`.orange.unittestarchitect.worker.internal.makers.interfaces
 
 import com.squareup.kotlinpoet.FileSpec
 
-interface KotlinFileMaker {
+internal interface KotlinFileMaker {
     fun makeKotlinFile(clazz: Class<*>): FileSpec?
 }

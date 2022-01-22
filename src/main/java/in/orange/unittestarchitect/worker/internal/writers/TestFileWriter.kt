@@ -19,6 +19,6 @@ package `in`.orange.unittestarchitect.worker.internal.writers
 import com.squareup.kotlinpoet.FileSpec
 import java.nio.file.Path
 
-interface TestFileWriter {
+internal interface TestFileWriter {
     fun writeFile(file: FileSpec, sourceCodePath: Path)
 }

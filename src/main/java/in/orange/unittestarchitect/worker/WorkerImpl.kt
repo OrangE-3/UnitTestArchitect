@@ -26,7 +26,7 @@ import `in`.orange.unittestarchitect.worker.internal.writers.TestFileWriter
 import `in`.orange.unittestarchitect.worker.internal.writers.TestFileWriterImpl
 import java.net.URL
 
-class WorkerImpl(
+internal class WorkerImpl(
         private val urls: Array<URL>,
         private val sourceDirectoryList: List<String>,
         private val exclude: List<String>,

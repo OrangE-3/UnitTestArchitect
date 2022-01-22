@@ -16,6 +16,6 @@
 
 package `in`.orange.unittestarchitect.worker
 
-interface Worker {
+internal interface Worker {
     fun work()
 }

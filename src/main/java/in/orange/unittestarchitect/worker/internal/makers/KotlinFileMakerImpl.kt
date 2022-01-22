@@ -26,7 +26,7 @@ import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import java.lang.reflect.Modifier
 
-class KotlinFileMakerImpl : KotlinFileMaker {
+internal class KotlinFileMakerImpl : KotlinFileMaker {
     companion object {
         private const val BEFORE_FUNCTION_NAME = "setUp"
         private const val TEST_OBJECT_NAME = "testObject"

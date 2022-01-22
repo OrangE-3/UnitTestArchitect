@@ -27,7 +27,7 @@ import java.io.File
 import java.nio.file.Path
 import java.nio.file.Paths
 
-class TestFileWriterImpl(
+internal class TestFileWriterImpl(
         private val sourceDirectoryList: List<String>
 ) : TestFileWriter {
     override fun writeFile(file: FileSpec, sourceCodePath: Path) {

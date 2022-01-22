@@ -22,7 +22,7 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 
-class FilePathHelperImpl(
+internal class FilePathHelperImpl(
         private val sourceDirectoryList: List<String>,
         private val exclude: List<String>
 ) : FilePathHelper {
@@ -30,7 +30,7 @@ class FilePathHelperImpl(
         val answer = ArrayList<Path>()
         for (sourceDirectory in sourceDirectoryList) {
             val projectDirAbsolutePath = Paths.get(sourceDirectory)
-            val paths = Files.walk(projectDirAbsolutePath)
+            Files.walk(projectDirAbsolutePath)
                     .filter { item -> Files.isRegularFile(item) }
                     .filter { item -> item.toString().endsWith(KOTLIN_FILE_EXTENSION) || item.toString().endsWith(JAVA_FILE_EXTENSION) }
                     .forEach { item ->

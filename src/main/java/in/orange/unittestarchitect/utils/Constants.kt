@@ -16,7 +16,7 @@
 
 package `in`.orange.unittestarchitect.utils
 
-class Constants {
+internal class Constants {
     companion object {
         internal const val TEST_FILE_SUFFIX = "Test"
         internal const val JAVA_DIRECTORY = "java"

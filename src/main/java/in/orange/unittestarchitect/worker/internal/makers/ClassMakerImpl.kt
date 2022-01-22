@@ -25,7 +25,7 @@ import java.net.URL
 import java.net.URLClassLoader
 import java.nio.file.Path
 
-class ClassMakerImpl(
+internal class ClassMakerImpl(
         private var urls: Array<URL>
 ) : ClassMaker {
     companion object {
