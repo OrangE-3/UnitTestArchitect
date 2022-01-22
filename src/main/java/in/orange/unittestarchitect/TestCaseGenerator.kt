@@ -23,7 +23,7 @@ import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 import java.net.URL
 
-abstract class TestCaseGenerator: DefaultTask() {
+abstract class TestCaseGenerator : DefaultTask() {
     @Input
     lateinit var urls: Array<URL>
 

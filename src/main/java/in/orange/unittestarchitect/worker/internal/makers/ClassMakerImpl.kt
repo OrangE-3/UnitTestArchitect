@@ -16,6 +16,10 @@
 
 package `in`.orange.unittestarchitect.worker.internal.makers
 
+import `in`.orange.unittestarchitect.utils.Constants.Companion.DIRECTORY_SEPARATOR
+import `in`.orange.unittestarchitect.utils.Constants.Companion.JAVA_DIRECTORY
+import `in`.orange.unittestarchitect.utils.Constants.Companion.KOTLIN_FILE_EXTENSION
+import `in`.orange.unittestarchitect.utils.Constants.Companion.PACKAGE_SEPARATOR
 import `in`.orange.unittestarchitect.worker.internal.makers.interfaces.ClassMaker
 import java.net.URL
 import java.net.URLClassLoader
@@ -23,20 +27,28 @@ import java.nio.file.Path
 
 class ClassMakerImpl(
         private var urls: Array<URL>
-): ClassMaker {
+) : ClassMaker {
+    companion object {
+        private const val ANDROID_DIRECTORY = "ANDROID_SDK_DIRECTORY"
+        private const val ANDROID_JAR = "android.jar"
+        private const val FILE_URL_PREFIX = "file:"
+    }
+
     private var classloader: ClassLoader
+
     init {
-        val SDK_LOCATION = System.getenv("ANDROID_SDK_DIRECTORY")
-        if(SDK_LOCATION != null){
-            val ANDROID = URL("file:${SDK_LOCATION}/android.jar")
+        val SDK_LOCATION = System.getenv(ANDROID_DIRECTORY)
+        if (SDK_LOCATION != null) {
+            val ANDROID = URL(FILE_URL_PREFIX + SDK_LOCATION + DIRECTORY_SEPARATOR + ANDROID_JAR)
             urls += ANDROID
         }
         classloader = URLClassLoader(urls)
     }
+
     override fun makeClass(path: Path): Class<*>? {
-        val className = path.toString().substringAfter("/java/").replace("/", ".").removeSuffix(".kt")
+        val className = path.toString().substringAfter(DIRECTORY_SEPARATOR + JAVA_DIRECTORY + DIRECTORY_SEPARATOR).replace(DIRECTORY_SEPARATOR, PACKAGE_SEPARATOR).removeSuffix(KOTLIN_FILE_EXTENSION)
         val x = classloader.loadClass(className)
-        return if(!x.isInterface) {
+        return if (!x.isInterface) {
             x
         } else null
     }

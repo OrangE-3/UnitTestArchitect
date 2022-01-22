@@ -16,6 +16,8 @@
 
 package `in`.orange.unittestarchitect.worker.internal.helpers
 
+import `in`.orange.unittestarchitect.utils.Constants.Companion.JAVA_FILE_EXTENSION
+import `in`.orange.unittestarchitect.utils.Constants.Companion.KOTLIN_FILE_EXTENSION
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -23,23 +25,22 @@ import java.nio.file.Paths
 class FilePathHelperImpl(
         private val sourceDirectoryList: List<String>,
         private val exclude: List<String>
-): FilePathHelper {
-
+) : FilePathHelper {
     override fun getFilePaths(): List<Path> {
         val answer = ArrayList<Path>()
-        for(sourceDirectory in sourceDirectoryList) {
+        for (sourceDirectory in sourceDirectoryList) {
             val projectDirAbsolutePath = Paths.get(sourceDirectory)
             val paths = Files.walk(projectDirAbsolutePath)
                     .filter { item -> Files.isRegularFile(item) }
-                    .filter { item -> item.toString().endsWith(".kt") || item.toString().endsWith(".java") }
-                    .forEach{ item ->
+                    .filter { item -> item.toString().endsWith(KOTLIN_FILE_EXTENSION) || item.toString().endsWith(JAVA_FILE_EXTENSION) }
+                    .forEach { item ->
                         var shouldExclude = false
-                        for(exc in exclude) {
-                            if(item.toString().startsWith(exc)) {
+                        for (exc in exclude) {
+                            if (item.toString().startsWith(exc)) {
                                 shouldExclude = true
                             }
                         }
-                        if(!shouldExclude) {
+                        if (!shouldExclude) {
                             answer.add(item)
                         }
                     }

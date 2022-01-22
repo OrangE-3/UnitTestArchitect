@@ -1,5 +1,12 @@
 # UnitTestArchitect
-This is a gradle plugin that helps you to generate boilerplate code for writing jUnit + Mockito Test Cases. 
+This is a gradle plugin that helps you to generate boilerplate code for writing jUnit + Mockito Test Cases.
+
+Any existing IDEs such as IntelliJ or Android Studio, will generate test cases but only per method per file. 
+They also generate only empty methods and leave the actual code to the developer. 
+This can get tedious if you have a lot of untested code in your codebase, as you'll have to write mock fields for
+each dependency in your class.
+
+This is where you can use this plugin to reduce developer time.
 
 
 To us this plugin, add it to the buildscripts classpath:
@@ -97,7 +104,9 @@ class MyClass(
 }
 ```
 
-This will generate boilerplate test classes with cases for classes without any test cases already present.
+This will generate and paste boilerplate test classes of any new code without affecting existing test classes.
+Hence, it's more useful in projects where unit testing was not in scope earlier, but now you want to write testes for older code. 
+The more the number of untested files in your code, the more useful this plugin gets.
 ## Example Output: module/src/testSomeFolder/java/
 ### Classes Like this one, compilable, will be generated in your project's test folders.
 

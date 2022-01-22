@@ -16,6 +16,12 @@
 
 package `in`.orange.unittestarchitect.worker.internal.writers
 
+import `in`.orange.unittestarchitect.utils.Constants.Companion.DIRECTORY_SEPARATOR
+import `in`.orange.unittestarchitect.utils.Constants.Companion.JAVA_DIRECTORY
+import `in`.orange.unittestarchitect.utils.Constants.Companion.MAIN_DIRECTORY
+import `in`.orange.unittestarchitect.utils.Constants.Companion.PACKAGE_SEPARATOR
+import `in`.orange.unittestarchitect.utils.Constants.Companion.TEST_DIRECTORY
+import `in`.orange.unittestarchitect.utils.Constants.Companion.TEST_FILE_SUFFIX
 import com.squareup.kotlinpoet.FileSpec
 import java.io.File
 import java.nio.file.Path
@@ -23,29 +29,29 @@ import java.nio.file.Paths
 
 class TestFileWriterImpl(
         private val sourceDirectoryList: List<String>
-): TestFileWriter {
-    override fun writeFile(file: FileSpec, sourceCodePath: Path, ) {
-        var testPath : Path = Paths.get("")
-        for(source in sourceDirectoryList){
-            if(sourceCodePath.startsWith(source)){
-                var prefix = ""
-                if(source.endsWith("main")){
-                    prefix = source.substringBeforeLast("main") + "test"
+) : TestFileWriter {
+    override fun writeFile(file: FileSpec, sourceCodePath: Path) {
+        var testPath: Path = Paths.get("")
+        for (source in sourceDirectoryList) {
+            if (sourceCodePath.startsWith(source)) {
+                var prefix: String
+                if (source.endsWith(MAIN_DIRECTORY)) {
+                    prefix = source.substringBeforeLast(MAIN_DIRECTORY) + TEST_DIRECTORY
                 } else {
-                    prefix = source.substringBeforeLast("/")
-                    var dir = source.substringAfterLast("/")
-                    dir = "test" + dir[0].toUpperCase() + dir.substring(1)
-                    prefix = "$prefix/$dir"
+                    prefix = source.substringBeforeLast(DIRECTORY_SEPARATOR)
+                    var dir = source.substringAfterLast(DIRECTORY_SEPARATOR)
+                    dir = TEST_DIRECTORY + dir[0].toUpperCase() + dir.substring(1)
+                    prefix = prefix + DIRECTORY_SEPARATOR + dir
                 }
                 var actualPathString = sourceCodePath.toString().substringAfter(source)
-                actualPathString = actualPathString.substringBeforeLast(".")+"Test."+actualPathString.substringAfterLast(".")
+                actualPathString = actualPathString.substringBeforeLast(PACKAGE_SEPARATOR) + TEST_FILE_SUFFIX + PACKAGE_SEPARATOR + actualPathString.substringAfterLast(PACKAGE_SEPARATOR)
                 val testPathString = prefix + actualPathString
                 testPath = Paths.get(testPathString)
             }
         }
         val fileCheck = File(testPath.toUri()).isFile
-        if(!fileCheck){
-            val myPath = Paths.get(testPath.toString().substringBefore("/java/") + "/java")
+        if (!fileCheck) {
+            val myPath = Paths.get(testPath.toString().substringBefore(DIRECTORY_SEPARATOR + JAVA_DIRECTORY + DIRECTORY_SEPARATOR) + DIRECTORY_SEPARATOR + JAVA_DIRECTORY)
             file.writeTo(myPath)
         }
     }

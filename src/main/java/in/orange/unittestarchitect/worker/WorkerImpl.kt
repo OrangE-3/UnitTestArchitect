@@ -18,10 +18,10 @@ package `in`.orange.unittestarchitect.worker
 
 import `in`.orange.unittestarchitect.worker.internal.helpers.FilePathHelper
 import `in`.orange.unittestarchitect.worker.internal.helpers.FilePathHelperImpl
-import `in`.orange.unittestarchitect.worker.internal.makers.interfaces.ClassMaker
 import `in`.orange.unittestarchitect.worker.internal.makers.ClassMakerImpl
-import `in`.orange.unittestarchitect.worker.internal.makers.interfaces.KotlinFileMaker
 import `in`.orange.unittestarchitect.worker.internal.makers.KotlinFileMakerImpl
+import `in`.orange.unittestarchitect.worker.internal.makers.interfaces.ClassMaker
+import `in`.orange.unittestarchitect.worker.internal.makers.interfaces.KotlinFileMaker
 import `in`.orange.unittestarchitect.worker.internal.writers.TestFileWriter
 import `in`.orange.unittestarchitect.worker.internal.writers.TestFileWriterImpl
 import java.net.URL
@@ -34,10 +34,10 @@ class WorkerImpl(
         private val classMaker: ClassMaker = ClassMakerImpl(urls),
         private val kotlinFileMaker: KotlinFileMaker = KotlinFileMakerImpl(),
         private val testFileWriter: TestFileWriter = TestFileWriterImpl(sourceDirectoryList)
-): Worker {
+) : Worker {
     override fun work() {
         val paths = filePathHelper.getFilePaths()
-        for(path in paths) {
+        for (path in paths) {
             val clazz = classMaker.makeClass(path)
             val file = clazz?.let { kotlinFileMaker.makeKotlinFile(it) }
             if (file != null) {

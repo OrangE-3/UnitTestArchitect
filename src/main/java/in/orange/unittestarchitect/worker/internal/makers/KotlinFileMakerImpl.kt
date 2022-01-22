@@ -16,6 +16,8 @@
 
 package `in`.orange.unittestarchitect.worker.internal.makers
 
+import `in`.orange.unittestarchitect.utils.Constants.Companion.PACKAGE_SEPARATOR
+import `in`.orange.unittestarchitect.utils.Constants.Companion.TEST_FILE_SUFFIX
 import `in`.orange.unittestarchitect.worker.internal.makers.interfaces.KotlinFileMaker
 import com.squareup.kotlinpoet.*
 import org.junit.Before
@@ -24,22 +26,27 @@ import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import java.lang.reflect.Modifier
 
-class KotlinFileMakerImpl: KotlinFileMaker {
+class KotlinFileMakerImpl : KotlinFileMaker {
+    companion object {
+        private const val BEFORE_FUNCTION_NAME = "setUp"
+        private const val TEST_OBJECT_NAME = "testObject"
+    }
+
     override fun makeKotlinFile(clazz: Class<*>): FileSpec? {
-        val classBuilder = TypeSpec.classBuilder(clazz.simpleName + "Test")
-        val beforeFunctionSpecBuilder = FunSpec.builder("setUp")
+        val classBuilder = TypeSpec.classBuilder(clazz.simpleName + TEST_FILE_SUFFIX)
+        val beforeFunctionSpecBuilder = FunSpec.builder(BEFORE_FUNCTION_NAME)
                 .addAnnotation(Before::class)
                 .addStatement("%T.initMocks(this)", MockitoAnnotations::class)
-        var i=0
-        val parameterMap: MutableMap<Class<*>,Int> = HashMap()
-        for(constructor in clazz.declaredConstructors) {
-            if(constructor.isSynthetic || Modifier.isPrivate(constructor.modifiers)) continue
-            i+=1
+        var i = 0
+        val parameterMap: MutableMap<Class<*>, Int> = HashMap()
+        for (constructor in clazz.declaredConstructors) {
+            if (constructor.isSynthetic || Modifier.isPrivate(constructor.modifiers)) continue
+            i += 1
             //Number of constructors = number of test objects.
-            val testObject = if(i==1){
-                "testObject"
+            val testObject = if (i == 1) {
+                TEST_OBJECT_NAME
             } else {
-                "testObject$i"
+                TEST_OBJECT_NAME + i
             }
             classBuilder.addProperty(PropertySpec.builder(testObject, clazz)
                     .addModifiers(arrayListOf(KModifier.LATEINIT, KModifier.PRIVATE))
@@ -51,25 +58,25 @@ class KotlinFileMakerImpl: KotlinFileMaker {
 
             val parameterLength = constructor.parameterTypes.size
             var j = 0
-            for(parameter in constructor.parameterTypes) {
-                if(!parameterMap.containsKey(parameter)){
+            for (parameter in constructor.parameterTypes) {
+                if (!parameterMap.containsKey(parameter)) {
                     parameterMap[parameter] = 1
                 } else {
                     parameterMap[parameter] = parameterMap[parameter]!! + 1
                 }
                 val count = parameterMap[parameter]
-                val name = if(count == 1) {
+                val name = if (count == 1) {
                     parameter.simpleName[0].toLowerCase() + parameter.simpleName.substring(1)
                 } else {
                     parameter.simpleName[0].toLowerCase() + parameter.simpleName.substring(1) + count
                 }
-                if(parameter.isPrimitive){
+                if (parameter.isPrimitive) {
                     classBuilder.addProperty(PropertySpec.builder(name, parameter.asTypeName().copy(nullable = true))
                             .addModifiers(arrayListOf(KModifier.PRIVATE))
                             .initializer("null")
                             .mutable(true)
                             .build())
-                } else if(parameter == java.lang.String::class.java || parameter == java.lang.Throwable::class.java) {
+                } else if (parameter == java.lang.String::class.java || parameter == java.lang.Throwable::class.java) {
                     classBuilder.addProperty(PropertySpec.builder(name, parameter.kotlin)
                             .addModifiers(arrayListOf(KModifier.LATEINIT, KModifier.PRIVATE))
                             .mutable(true)
@@ -81,8 +88,8 @@ class KotlinFileMakerImpl: KotlinFileMaker {
                             .mutable(true)
                             .build())
                 }
-                j+=1
-                if(j<parameterLength) {
+                j += 1
+                if (j < parameterLength) {
                     beforeFunctionSpecBuilder
                             .addStatement("\t%N,", name)
                 } else {
@@ -95,11 +102,11 @@ class KotlinFileMakerImpl: KotlinFileMaker {
         }
         val methodNameMap: MutableMap<String, Int> = HashMap()
         var methodCount = 0
-        for(method in clazz.declaredMethods){
+        for (method in clazz.declaredMethods) {
             //Exhaustive list of non-private methods
-            if(!method.isSynthetic && !Modifier.isPrivate(method.modifiers)) {
-                methodCount +=1
-                if(!methodNameMap.containsKey(method.name)){
+            if (!method.isSynthetic && !Modifier.isPrivate(method.modifiers)) {
+                methodCount += 1
+                if (!methodNameMap.containsKey(method.name)) {
                     methodNameMap[method.name] = 1
                     classBuilder.addFunction(FunSpec.builder(method.name)
                             .addAnnotation(Test::class)
@@ -115,11 +122,11 @@ class KotlinFileMakerImpl: KotlinFileMaker {
         }
         classBuilder.addFunction(beforeFunctionSpecBuilder.build())
 
-        val file = FileSpec.builder(clazz.canonicalName.substringBeforeLast("."), clazz.simpleName + "Test")
+        val file = FileSpec.builder(clazz.canonicalName.substringBeforeLast(PACKAGE_SEPARATOR), clazz.simpleName + TEST_FILE_SUFFIX)
                 .addType(classBuilder.build())
                 .build()
 
-        return if(methodCount!=0)
+        return if (methodCount != 0)
             file
         else null
     }
