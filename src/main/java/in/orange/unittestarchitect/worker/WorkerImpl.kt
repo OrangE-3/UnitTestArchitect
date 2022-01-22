@@ -16,8 +16,8 @@
 
 package `in`.orange.unittestarchitect.worker
 
-import `in`.orange.unittestarchitect.worker.internal.helpers.FilePathHelper
 import `in`.orange.unittestarchitect.worker.internal.helpers.FilePathHelperImpl
+import `in`.orange.unittestarchitect.worker.internal.helpers.interfaces.FilePathHelper
 import `in`.orange.unittestarchitect.worker.internal.makers.ClassMakerImpl
 import `in`.orange.unittestarchitect.worker.internal.makers.KotlinFileMakerImpl
 import `in`.orange.unittestarchitect.worker.internal.makers.interfaces.ClassMaker

@@ -18,6 +18,7 @@ package `in`.orange.unittestarchitect.worker.internal.helpers
 
 import `in`.orange.unittestarchitect.utils.Constants.Companion.JAVA_FILE_EXTENSION
 import `in`.orange.unittestarchitect.utils.Constants.Companion.KOTLIN_FILE_EXTENSION
+import `in`.orange.unittestarchitect.worker.internal.helpers.interfaces.FilePathHelper
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths

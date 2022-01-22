@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package `in`.orange.unittestarchitect.worker.internal.helpers
+package `in`.orange.unittestarchitect.worker.internal.helpers.interfaces
 
-import java.nio.file.Path
+import java.lang.reflect.Method
 
-internal interface FilePathHelper {
-    fun getFilePaths(): List<Path>
+interface ClassHelper {
+    fun getTestObjectMap(clazz: Class<*>): Map<String, Map<String, Class<*>>>
+    fun getMethodMap(clazz: Class<*>): Pair<Int, Map<String, Method>>
 }
