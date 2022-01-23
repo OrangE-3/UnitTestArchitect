@@ -1,4 +1,7 @@
-# UnitTestArchitect
+# UnitTestArchitect 
+
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.orange-3/unit-test-architect/badge.svg)](https://maven-badges.herokuapp.com/maven-central/cz.jirutka.rsql/rsql-parser)
+
 This is a gradle plugin that helps you to generate boilerplate code for writing jUnit + Mockito Test Cases.
 
 Any existing IDEs such as IntelliJ or Android Studio, will generate test cases but only per method per file. 
@@ -24,12 +27,11 @@ buildscript {
     repositories {
         ...
         mavenCentral()
-        mavenLocal()
         ...
     }
     dependencies {
         ...
-        classpath "io.github.orange-3:unit-test-architect:1.1.0"
+        classpath "io.github.orange-3:unit-test-architect:$LATEST_LIBRARY_VERSION"
         ...
     }
 }
