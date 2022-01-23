@@ -96,12 +96,16 @@ Usage of task : ./gradlew :library:generateTests
 package foo.bar.tom.files
 
 
-import foo.bar.tom.models.SomeRequestObject
+import foo.bar.tom.models.SomeRequest
+import foo.bar.tom.models.SomeResponse
+import foo.bar.tom.interfaces.SomeInterface
 import foo.bar.tom.dog.DummyClass3
 import foo.bar.tom.dog.converter.DummyClass2
 import foo.bar.tom.dog.network.service.DummyClass1
 import foo.bar.tom.dog.usecases.interfaces.MyClassInterface
 import android.content.Context
+import kotlin.Int
+import kotlin.String
 
 class MyClass(
     private val context: Context,
@@ -135,27 +139,37 @@ Hence, it's more useful in projects where unit testing was not in scope earlier,
 The more the number of untested files in your code, the more useful this plugin gets.
 
 ```
+package foo.bar.tom.models
+import ...
 data class SomeRequest(
     val integer: Int,
     val someClass: SomeClass
 )
-
+```
+```
+package foo.bar.tom.models
+import ...
 data class SomeResponse(
     val double: Double
 )
-
+```
+```
+package foo.bar.tom.classes
+import ...
 public class SomeClass(
     val data: String,
     ...
 ) {
 //Some Class Logic
 }
-
+```
+```
+package foo.bar.tom.classes
+import ...
 public class AnotherResponse(
     //Empty Constructor
 ) {
 }
-
 ```
 What the logic will do, is it will perform Graph Search operations on parameters and
 generate all required intermediate test objects!
@@ -166,6 +180,11 @@ generate all required intermediate test objects!
 ```
 package foo.bar.tom.files
 
+import foo.bar.tom.models.SomeRequest
+import foo.bar.tom.models.SomeResponse
+import foo.bar.tom.classes.SomeClass
+import foo.bar.tom.classes.AnotherResponse
+import foo.bar.tom.interfaces.SomeInterface
 import foo.bar.tom.dog.DummyClass3
 import foo.bar.tom.dog.converter.DummyClass2
 import foo.bar.tom.dog.network.service.DummyClass1
@@ -175,6 +194,9 @@ import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
+import kotlin.Int
+import kotlin.String
+import kotlin.Double
 
 public class MyClassTest {
   private lateinit var testObject: MyClass
