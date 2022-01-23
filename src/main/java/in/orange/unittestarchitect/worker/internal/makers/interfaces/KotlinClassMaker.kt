@@ -18,6 +18,6 @@ package `in`.orange.unittestarchitect.worker.internal.makers.interfaces
 
 import com.squareup.kotlinpoet.TypeSpec
 
-interface KotlinClassMaker {
+internal interface KotlinClassMaker {
     fun createTestClass(clazz: Class<*>, className: String): TypeSpec?
 }

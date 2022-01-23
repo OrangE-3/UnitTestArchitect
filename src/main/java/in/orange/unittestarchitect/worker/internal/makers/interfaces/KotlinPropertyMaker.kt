@@ -18,7 +18,7 @@ package `in`.orange.unittestarchitect.worker.internal.makers.interfaces
 
 import com.squareup.kotlinpoet.PropertySpec
 
-interface KotlinPropertyMaker {
+internal interface KotlinPropertyMaker {
     fun createProperty(
             parameter: Class<*>,
             name: String,

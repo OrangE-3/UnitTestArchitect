@@ -6,10 +6,18 @@ They also generate only empty methods and leave the actual code to the developer
 This can get tedious if you have a lot of untested code in your codebase, as you'll have to write mock fields for
 each dependency in your class.
 
-This is where you can use this plugin to reduce developer time.
+This is where you can use this plugin to reduce developer time. This Plugin generates actual test case code along 
+with mocks and input fields + output fields per test case. It even adds an assertion to your method invoke!
 
 
-To us this plugin, add it to the buildscripts classpath:
+#### Major advantage of using this plugin is that it is language agnostic. It supports:
+#### * Android Projects
+#### * Pure Java Projects
+#### * Pure Kotlin Projects
+#### * Java + Kotlin Projects
+
+## Usage
+To use this plugin, add it to the buildscripts classpath:
 
 ```
 buildscript {
@@ -21,7 +29,7 @@ buildscript {
     }
     dependencies {
         ...
-        classpath "in.orange:unit-test-architect:1.0.0-SNAPSHOT"
+        classpath "in.orange:unit-test-architect:1.0.0"
         ...
     }
 }
@@ -44,8 +52,15 @@ You can give source folders and exclude directories of which you don't want test
 tasks.register('generateTests', in.orange.unittestarchitect.TestCaseGenerator) {
     android.libraryVariants.each { v ->
         if (v.name == "SOME FLAVOR VARIANT NAME") {
-            urls = v.getCompileClasspath(null).getFiles().collect { it.toURI().toURL() } as URL[]
+            // This line searches for javac compiled code
+            def javaCompiledClasses = variant.getJavaCompileProvider().get().destinationDirectory.getAsFile().get().toURI().toURL()
+            // This line searches for kotlin compiled code + dependencies
+            def restDependencies = variant.getCompileClasspath(null).getFiles().collect { it.toURI().toURL() } as URL[]
+            // You need to set this field with all locations to your compiled code (.class files)
+            urls = restDependencies + javaCompiledClasses
+            // You also need to provide a list of source directories
             sourceDirectoryList = ["library/src/main", "library/src/flavorFolder2", "library/src/flavorFolder3"]
+            // If needed, you can exclude directories or files using this
             exclude = ["library/src/main/java/foo/bar/tom/di",
                        "library/src/main/java/foo/bar/tom/models",
                        "library/src/main/java/foo/bar/tom/cat/di",
@@ -93,20 +108,56 @@ class MyClass(
     private val dummyClass2: DummyClass2
 ) : MyClassInterface {
 
-    override suspend fun execute(request: SomeRequestObject) {
+    override fun execute(request: SomeRequest): SomeResponse {
         doSomeThing()
     }
-
+    
+    override suspend fun check(
+        input: String, 
+        dummyInt: Int, 
+        someInterface: SomeInterface
+    ): AnotherResponse {
+        //does Something
+    }
+    
     private fun doSomething(
     ): Unit {
         //does something
     }
+   
 }
 ```
 
 This will generate and paste boilerplate test classes of any new code without affecting existing test classes.
 Hence, it's more useful in projects where unit testing was not in scope earlier, but now you want to write testes for older code. 
 The more the number of untested files in your code, the more useful this plugin gets.
+
+```
+data class SomeRequest(
+    val integer: Int,
+    val someClass: SomeClass
+)
+
+data class SomeResponse(
+    val double: Double
+)
+
+public class SomeClass(
+    val data: String,
+    ...
+) {
+//Some Class Logic
+}
+
+public class AnotherResponse(
+    //Empty Constructor
+) {
+}
+
+```
+What the logic will do, is it will perform Graph Search operations on parameters and
+generate all required intermediate test objects!
+
 ## Example Output: module/src/testSomeFolder/java/
 ### Classes Like this one, compilable, will be generated in your project's test folders.
 
@@ -138,10 +189,6 @@ public class MyClassTest {
   @Mock
   private lateinit var dummyClass2: DummyClass2
 
-  @Test
-  public fun execute(): Unit {
-  }
-
   @Before
   public fun setUp(): Unit {
     MockitoAnnotations.initMocks(this)
@@ -152,8 +199,52 @@ public class MyClassTest {
     	dummyClass2
     )
   }
+  
+  @Test
+  public fun execute(): Unit {
+    //generates random primitive type and string values 
+    val testIntObject: Int = 1
+    val testStringObject: String = "dasfewfe3"
+    val testSomeClassObject: SomeClass = SomeClass(data)
+    val testSomeRequestObject : SomeRequest = SomeRequest(testIntegerObject, data)
+    val testDoubleObject: Double = 1.0
+    val testExpectedResult : SomeResponse = SomeResponse(testDoubleObject)
+    Assert.assertEquals(
+        testExpectedResult,
+        testObject.execute(testSomeRequestObject)
+    )
+  }
+  
+  @Test
+  public fun check(): Unit {
+    val testStringObject: String = "fwf4scxaasd"
+    val testIntObject: Int = 1
+    // Leaves interface implementations upto the developer
+    lateinit var someInterface: SomeInterface
+    val testExpectedResult : AnotherResponse = AnotherResponse()
+    
+    runBlocking {
+        Assert.assertEquals(
+            testExpectedResult,
+            testObject.check(
+                testStringObject, 
+                testIntObject, 
+                someInterface
+            )
+        )
+    }
+  }
+  
 }
 
 ```
 
+### It must be evident by now that this plugin writes so much code for you.
+### Please note that the test cases will be generated only in kotlin for both java and kotlin files.
+
+## Open Issues
+* Classes with generics are not supported. But the task will run and cases will be generated.
+* Some coroutine tests are generated for no reason.
+* Above cases will create compilation error in test files, but these can be addressed by the 
+developer himself.
 

@@ -17,10 +17,12 @@
 package `in`.orange.unittestarchitect.worker.internal.makers.interfaces
 
 import com.squareup.kotlinpoet.FunSpec
+import java.lang.reflect.Method
 
-interface KotlinFunctionMaker {
+internal interface KotlinFunctionMaker {
     fun createTestFunction(
-            functionName: String
+            functionName: String,
+            method: Method
     ): FunSpec
 
     fun createBeforeFunction(clazz: Class<*>, testObjectMap: Map<String, Map<String, Class<*>>>): FunSpec

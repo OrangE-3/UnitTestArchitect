@@ -26,5 +26,6 @@ internal class Constants {
         internal const val MAIN_DIRECTORY = "main"
         internal const val DIRECTORY_SEPARATOR = "/"
         internal const val PACKAGE_SEPARATOR = "."
+        internal const val TEST_OBJECT_NAME = "testObject"
     }
 }

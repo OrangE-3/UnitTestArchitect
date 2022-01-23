@@ -23,7 +23,7 @@ import `in`.orange.unittestarchitect.worker.internal.makers.interfaces.KotlinFun
 import `in`.orange.unittestarchitect.worker.internal.makers.interfaces.KotlinPropertyMaker
 import com.squareup.kotlinpoet.TypeSpec
 
-class KotlinClassMakerImpl(
+internal class KotlinClassMakerImpl(
         private val classHelper: ClassHelper = ClassHelperImpl(),
         private val kotlinFunctionMaker: KotlinFunctionMaker = KotlinFuctionMakerImpl(),
         private val kotlinPropertyMaker: KotlinPropertyMaker = KotlinPropertyMakerImpl()
@@ -53,7 +53,7 @@ class KotlinClassMakerImpl(
         }
 
         for (method in methodMap.second) {
-            classBuilder.addFunction(kotlinFunctionMaker.createTestFunction(method.key))
+            classBuilder.addFunction(kotlinFunctionMaker.createTestFunction(method.key, method.value))
         }
 
         return classBuilder.build()

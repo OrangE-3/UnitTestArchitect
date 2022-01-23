@@ -22,7 +22,7 @@ import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.asTypeName
 import org.mockito.Mock
 
-class KotlinPropertyMakerImpl : KotlinPropertyMaker {
+internal class KotlinPropertyMakerImpl : KotlinPropertyMaker {
 
     override fun createProperty(
             parameter: Class<*>,

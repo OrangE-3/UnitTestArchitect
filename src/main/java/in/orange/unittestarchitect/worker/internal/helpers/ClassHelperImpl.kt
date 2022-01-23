@@ -16,15 +16,12 @@
 
 package `in`.orange.unittestarchitect.worker.internal.helpers
 
+import `in`.orange.unittestarchitect.utils.Constants.Companion.TEST_OBJECT_NAME
 import `in`.orange.unittestarchitect.worker.internal.helpers.interfaces.ClassHelper
 import java.lang.reflect.Method
 import java.lang.reflect.Modifier
 
-class ClassHelperImpl : ClassHelper {
-    companion object {
-        private const val TEST_OBJECT_NAME = "testObject"
-    }
-
+internal class ClassHelperImpl : ClassHelper {
     override fun getTestObjectMap(clazz: Class<*>): Map<String, Map<String, Class<*>>> {
         val answer = LinkedHashMap<String, Map<String, Class<*>>>()
         var i = 0

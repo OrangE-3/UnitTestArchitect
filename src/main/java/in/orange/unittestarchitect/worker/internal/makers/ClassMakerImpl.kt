@@ -18,6 +18,7 @@ package `in`.orange.unittestarchitect.worker.internal.makers
 
 import `in`.orange.unittestarchitect.utils.Constants.Companion.DIRECTORY_SEPARATOR
 import `in`.orange.unittestarchitect.utils.Constants.Companion.JAVA_DIRECTORY
+import `in`.orange.unittestarchitect.utils.Constants.Companion.JAVA_FILE_EXTENSION
 import `in`.orange.unittestarchitect.utils.Constants.Companion.KOTLIN_FILE_EXTENSION
 import `in`.orange.unittestarchitect.utils.Constants.Companion.PACKAGE_SEPARATOR
 import `in`.orange.unittestarchitect.worker.internal.makers.interfaces.ClassMaker
@@ -46,7 +47,7 @@ internal class ClassMakerImpl(
     }
 
     override fun makeClass(path: Path): Class<*>? {
-        val className = path.toString().substringAfter(DIRECTORY_SEPARATOR + JAVA_DIRECTORY + DIRECTORY_SEPARATOR).replace(DIRECTORY_SEPARATOR, PACKAGE_SEPARATOR).removeSuffix(KOTLIN_FILE_EXTENSION)
+        val className = path.toString().substringAfter(DIRECTORY_SEPARATOR + JAVA_DIRECTORY + DIRECTORY_SEPARATOR).replace(DIRECTORY_SEPARATOR, PACKAGE_SEPARATOR).removeSuffix(KOTLIN_FILE_EXTENSION).removeSuffix(JAVA_FILE_EXTENSION)
         val x = classloader.loadClass(className)
         return if (!x.isInterface) {
             x
