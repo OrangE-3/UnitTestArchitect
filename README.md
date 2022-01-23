@@ -1,6 +1,6 @@
 # UnitTestArchitect 
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.orange-3/unit-test-architect/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.orange-3/unit-test-architect)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.orange-3/unit-test-architect/badge.svg?)](https://maven-badges.herokuapp.com/maven-central/io.github.orange-3/unit-test-architect?)
 
 This is a gradle plugin that helps you to generate boilerplate code for writing jUnit + Mockito Test Cases.
 
