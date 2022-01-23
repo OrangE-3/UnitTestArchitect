@@ -29,7 +29,7 @@ buildscript {
     }
     dependencies {
         ...
-        classpath "in.orange:unit-test-architect:1.0.0"
+        classpath "in.orange:unit-test-architect:1.1.0"
         ...
     }
 }
