@@ -29,7 +29,7 @@ buildscript {
     }
     dependencies {
         ...
-        classpath "in.orange:unit-test-architect:1.1.0"
+        classpath "io.github.orange-3:unit-test-architect:1.1.0"
         ...
     }
 }
@@ -40,7 +40,7 @@ And then add it as a plugin in your library gradle
 ```
 plugins {
   ...
-  id 'in.orange.unit-test-architect'
+  id 'io.github.orange-3.unit-test-architect'
   ...
 }
 ```
@@ -49,7 +49,7 @@ Finally, register this task:
 You can give source folders and exclude directories of which you don't want test cases to be generated.
 
 ```
-tasks.register('generateTests', in.orange.unittestarchitect.TestCaseGenerator) {
+tasks.register('generateTests', io.github.orange3.unittestarchitect.TestCaseGenerator) {
     android.libraryVariants.each { v ->
         if (v.name == "SOME FLAVOR VARIANT NAME") {
             // This line searches for javac compiled code

@@ -2,9 +2,10 @@ plugins {
     id 'java-gradle-plugin'
     id 'org.jetbrains.kotlin.jvm' version '1.5.10'
     id 'maven-publish'
+    id 'signing'
 }
 
-group 'in.orange'
+group 'io.github.orange-3'
 version '1.1.0'
 
 sourceCompatibility = 1.8
@@ -24,6 +25,11 @@ dependencies {
     implementation 'junit:junit:4.12'
 }
 
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
 compileKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
@@ -33,15 +39,49 @@ compileTestKotlin {
 
 publishing {
     publications {
-        pluginPublication (MavenPublication) {
-            from    components.java
-            groupId    project.group
-            artifactId    "unit-test-architect"
-            version    project.version
+        mavenJava (MavenPublication) {
+            from components.java
+            groupId project.group
+            artifactId "unit-test-architect"
+            version project.version
+
+            pom {
+                name = 'Unit Test Architect'
+                description = 'Unit Test Architect is an open source gradle plugin that helps you to automate generation of test cases of kotlin/java files using jUnit + Mockito.'
+                url = 'https://github.com/OrangE-3/UnitTestArchitect'
+                inceptionYear = '2022'
+
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'OrangE-3'
+                        name = 'Rahul Choudhary'
+                        email = 'samrath.choudhary@gmail.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git:github.com/OrangE-3/UnitTestArchitect.git'
+                    developerConnection = 'scm:git:ssh://github.com/OrangE-3/UnitTestArchitect.git'
+                    url = 'https://github.com/OrangE-3/UnitTestArchitect'
+                }
+            }
         }
     }
     repositories {
 //        uncomment below line to push to your local maven repo for testing
+        maven {
+            name = "OSSRH"
+            url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            credentials {
+                username = project.properties["ossrhUsername"]
+                password = project.properties["ossrhPassword"]
+            }
+        }
         mavenLocal()
     }
 }
@@ -49,8 +89,19 @@ publishing {
 gradlePlugin {
     plugins {
         unitTestArchitect {
-            id = 'in.orange.unit-test-architect'
-            implementationClass = 'in.orange.unittestarchitect.EntryPlugin'
+            id = 'io.github.orange-3.unit-test-architect'
+            implementationClass = 'io.github.orange3.unittestarchitect.EntryPlugin'
         }
+    }
+}
+
+signing {
+    sign publishing.publications.mavenJava
+}
+
+
+javadoc {
+    if(JavaVersion.current().isJava9Compatible()) {
+        options.addBooleanOption('html5', true)
     }
 }
