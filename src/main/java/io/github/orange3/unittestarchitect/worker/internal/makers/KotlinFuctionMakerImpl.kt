@@ -145,9 +145,9 @@ internal class KotlinFuctionMakerImpl : KotlinFunctionMaker {
             return
         }
         val constructors = currentNode.constructors
-        if (constructors.isNotEmpty() && currentNode != Throwable::class.java && currentNode != String::class.java) {
+        if (constructors.isNotEmpty() && currentNode != Throwable::class.java && currentNode != String::class.java && !currentNode.isPrimitive) {
             for (constructor in constructors) {
-                if (constructor.isSynthetic || Modifier.isPrivate(constructor.modifiers)) continue
+                if (constructor.isSynthetic || Modifier.isPrivate(constructor.modifiers) || !constructor.isAccessible) continue
                 val listOfParams: MutableList<String> = ArrayList()
                 val list = constructor.parameterTypes
                 for (parameter in list) {

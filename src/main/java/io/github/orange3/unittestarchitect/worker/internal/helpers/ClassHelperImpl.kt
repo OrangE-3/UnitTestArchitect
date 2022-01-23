@@ -27,7 +27,7 @@ internal class ClassHelperImpl : ClassHelper {
         var i = 0
         val parameterMap: MutableMap<Class<*>, Int> = HashMap()
         for (constructor in clazz.declaredConstructors) {
-            if (constructor.isSynthetic || Modifier.isPrivate(constructor.modifiers)) continue
+            if (constructor.isSynthetic || Modifier.isPrivate(constructor.modifiers) || !constructor.isAccessible) continue
             i += 1
             //Number of constructors = number of test objects.
             val testObject = if (i == 1) {
