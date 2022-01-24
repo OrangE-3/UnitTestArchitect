@@ -183,9 +183,6 @@ internal class KotlinFuctionMakerImpl : KotlinFunctionMaker {
                     } else {
                         FIELD_PREFIX + simpleName + FIELD_SUFFIX + count
                     }
-                    if(currentNode.simpleName == "ThemisSdkBuilder"){
-                        println(parameter)
-                    }
                     listOfParams.add(name)
                     someSet.add(currentNode)
                     doDfs(name, parameter, parameterMap, functionBuilder, someSet)
