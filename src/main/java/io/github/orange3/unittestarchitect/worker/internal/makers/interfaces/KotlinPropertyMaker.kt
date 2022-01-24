@@ -22,8 +22,6 @@ internal interface KotlinPropertyMaker {
     fun createProperty(
             parameter: Class<*>,
             name: String,
-            mock: Boolean,
-            initializer: Boolean,
-            nullable: Boolean
+            mock: Boolean
     ): PropertySpec
 }
