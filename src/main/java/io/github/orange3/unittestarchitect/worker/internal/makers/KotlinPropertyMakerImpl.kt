@@ -27,20 +27,34 @@ internal class KotlinPropertyMakerImpl : KotlinPropertyMaker {
     override fun createProperty(
             parameter: Class<*>,
             name: String,
-            mock: Boolean,
-            initializer: Boolean,
-            nullable: Boolean
+            mock: Boolean
     ): PropertySpec {
-        val answer = if (nullable) {
-            PropertySpec.builder(name, parameter.asTypeName().copy(nullable = true))
-        } else {
-            PropertySpec.builder(name, parameter.kotlin)
-        }
+        val answer = PropertySpec.builder(name, parameter.kotlin)
 
         answer.mutable(true)
-        if (initializer) {
-            answer.addModifiers(arrayListOf(KModifier.PRIVATE))
-                    .initializer("null")
+        if (parameter.isPrimitive) {
+            when (parameter.kotlin) {
+                Boolean::class -> {
+                    answer.addModifiers(arrayListOf(KModifier.PRIVATE))
+                            .initializer("false")
+                }
+                Char::class -> {
+                    answer.addModifiers(arrayListOf(KModifier.PRIVATE))
+                            .initializer("a")
+                }
+                Byte::class, Short::class, Int::class, Long::class -> {
+                    answer.addModifiers(arrayListOf(KModifier.PRIVATE))
+                            .initializer("1")
+                }
+                Float::class, Double::class -> {
+                    answer.addModifiers(arrayListOf(KModifier.PRIVATE))
+                            .initializer("1.0")
+                }
+                Void::class -> {
+                    answer.addModifiers(arrayListOf(KModifier.PRIVATE))
+                            .initializer("null")
+                }
+            }
         } else {
             answer.addModifiers(arrayListOf(KModifier.LATEINIT, KModifier.PRIVATE))
         }

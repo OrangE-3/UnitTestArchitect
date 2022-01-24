@@ -63,7 +63,7 @@ internal class ClassHelperImpl : ClassHelper {
         var methodCount = 0
         for (method in clazz.declaredMethods) {
             //Exhaustive list of non-private methods
-            if (!method.isSynthetic && !Modifier.isPrivate(method.modifiers)) {
+            if (!method.isSynthetic && !Modifier.isPrivate(method.modifiers) && !Modifier.isStatic(method.modifiers) && !Modifier.isAbstract(method.modifiers)) {
                 methodCount += 1
                 val name = if (!methodNameMap.containsKey(method.name)) {
                     methodNameMap[method.name] = 1

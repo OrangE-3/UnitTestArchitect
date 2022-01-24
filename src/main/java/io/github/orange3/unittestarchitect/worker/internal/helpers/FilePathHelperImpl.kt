@@ -35,7 +35,6 @@ internal class FilePathHelperImpl(
                     .filter { item -> Files.isRegularFile(item) }
                     .filter { item -> (item.toString().endsWith(KOTLIN_FILE_EXTENSION) || item.toString().endsWith(JAVA_FILE_EXTENSION)) }
                     .forEach { item ->
-                        println(item)
                         var shouldExclude = false
                         for (exc in exclude) {
                             if (item.toString().startsWith(exc)) {

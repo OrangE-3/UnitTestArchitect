@@ -52,9 +52,11 @@ You can give source folders and exclude directories of which you don't want test
 
 ```
 tasks.register('generateTests', io.github.orange3.unittestarchitect.TestCaseGenerator) {
-    android.libraryVariants.each { v ->
-        if (v.name == "SOME FLAVOR VARIANT NAME") {
+    // Use android.applicationVariants.each for application modules
+    android.libraryVariants.each { variant ->
+        if (variant.name == "SOME FLAVOR VARIANT NAME") {
             // This line searches for javac compiled code
+            // You can use this for older gradle versions: def javaCompiledClasses = variant.javaCompileProvider.get().destinationDir.getAbsoluteFile().toURI().toURL()
             def javaCompiledClasses = variant.getJavaCompileProvider().get().destinationDirectory.getAsFile().get().toURI().toURL()
             // This line searches for kotlin compiled code + dependencies
             def restDependencies = variant.getCompileClasspath(null).getFiles().collect { it.toURI().toURL() } as URL[]

@@ -97,11 +97,17 @@ internal class KotlinFuctionMakerImpl : KotlinFunctionMaker {
                 FIELD_PREFIX + simpleName + FIELD_SUFFIX + count
             }
             listOfParams.add(name)
-            doDfs(name, parameter, parameterMap, function)
+            val returnSet: MutableSet<Class<*>> = HashSet()
+            returnSet.add(parameter)
+            doDfs(name, parameter, parameterMap, function, returnSet)
+            returnSet.remove(parameter)
         }
 
         val returnType = method.returnType
-        doDfs(EXPECTED_RESULT, returnType, parameterMap, function)
+        val returnSet: MutableSet<Class<*>> = HashSet()
+        returnSet.add(returnType)
+        doDfs(EXPECTED_RESULT, returnType, parameterMap, function, HashSet())
+        returnSet.remove(returnType)
 
         var indent = 0
         if (isSuspend) {
@@ -138,18 +144,30 @@ internal class KotlinFuctionMakerImpl : KotlinFunctionMaker {
             nodeName: String,
             currentNode: Class<*>,
             parameterMap: MutableMap<Class<*>, Int>,
-            functionBuilder: FunSpec.Builder
+            functionBuilder: FunSpec.Builder,
+            someSet: MutableSet<Class<*>>
     ) {
         if (currentNode.name == ANDROID_CONTEXT_PACKAGE) {
             functionBuilder.addStatement("$VAL $nodeName: %T = %T.mock(%T::class.java)", currentNode.kotlin, Mockito::class, currentNode.kotlin)
             return
         }
+        if (currentNode.kotlin == String::class) {
+            val randomString = RandomString.make()
+            functionBuilder.addStatement("$VAL $nodeName: %T = \"$randomString\"", currentNode.kotlin)
+            return
+        }
         val constructors = currentNode.constructors
-        if (constructors.isNotEmpty() && currentNode != Throwable::class.java && currentNode != String::class.java) {
+        if (constructors.isNotEmpty() && !currentNode.isPrimitive) {
+            val listOfParams: MutableList<String> = ArrayList()
             for (constructor in constructors) {
                 if (constructor.isSynthetic || Modifier.isPrivate(constructor.modifiers)) continue
-                val listOfParams: MutableList<String> = ArrayList()
                 val list = constructor.parameterTypes
+                for(parameter in list) {
+                    if(someSet.contains(parameter)) {
+                        functionBuilder.addStatement("$LATEINIT_VAR $nodeName: %T", currentNode.kotlin)
+                        return
+                    }
+                }
                 for (parameter in list) {
                     if (parameter.isSynthetic) continue
                     if (!parameterMap.containsKey(parameter)) {
@@ -166,22 +184,24 @@ internal class KotlinFuctionMakerImpl : KotlinFunctionMaker {
                         FIELD_PREFIX + simpleName + FIELD_SUFFIX + count
                     }
                     listOfParams.add(name)
-                    doDfs(name, parameter, parameterMap, functionBuilder)
+                    someSet.add(currentNode)
+                    doDfs(name, parameter, parameterMap, functionBuilder, someSet)
+                    someSet.remove(currentNode)
                 }
-                functionBuilder.addStatement("$VAL $nodeName: %T = %T(", currentNode.kotlin, currentNode.kotlin)
-                var i = 0
-                val n = listOfParams.size
-                for (param in listOfParams) {
-                    i += 1
-                    if (i < n) {
-                        functionBuilder.addStatement("\t$param,")
-                    } else {
-                        functionBuilder.addStatement("\t$param")
-                    }
-                }
-                functionBuilder.addStatement(")")
                 break
             }
+            functionBuilder.addStatement("$VAL $nodeName: %T = %T(", currentNode.kotlin, currentNode.kotlin)
+            var i = 0
+            val n = listOfParams.size
+            for (param in listOfParams) {
+                i += 1
+                if (i < n) {
+                    functionBuilder.addStatement("\t$param,")
+                } else {
+                    functionBuilder.addStatement("\t$param")
+                }
+            }
+            functionBuilder.addStatement(")")
         } else {
             if (currentNode.isPrimitive) {
                 when (currentNode.kotlin) {
@@ -200,14 +220,12 @@ internal class KotlinFuctionMakerImpl : KotlinFunctionMaker {
                     Void::class -> {
                         functionBuilder.addStatement("$VAL $nodeName: %T = %T()", Any::class, Any::class)
                     }
+                    else -> {
+                        functionBuilder.addStatement("$LATEINIT_VAR $nodeName: %T", currentNode.kotlin)
+                    }
                 }
             } else {
-                if (currentNode.kotlin == String::class) {
-                    val randomString = RandomString.make()
-                    functionBuilder.addStatement("$VAL $nodeName: %T = \"$randomString\"", currentNode.kotlin)
-                } else {
-                    functionBuilder.addStatement("$LATEINIT_VAR $nodeName: %T", currentNode.kotlin)
-                }
+                functionBuilder.addStatement("$LATEINIT_VAR $nodeName: %T", currentNode.kotlin)
             }
         }
     }

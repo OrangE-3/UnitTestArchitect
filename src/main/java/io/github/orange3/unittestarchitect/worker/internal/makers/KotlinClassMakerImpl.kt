@@ -40,14 +40,12 @@ internal class KotlinClassMakerImpl(
 
         classBuilder.addFunction(kotlinFunctionMaker.createBeforeFunction(clazz, testObjectMap))
         for (testObject in testObjectMap) {
-            classBuilder.addProperty(kotlinPropertyMaker.createProperty(clazz, testObject.key, mock = false, initializer = false, nullable = false))
+            classBuilder.addProperty(kotlinPropertyMaker.createProperty(clazz, testObject.key, mock = false))
             for (parameter in testObject.value) {
-                if (parameter.value.isPrimitive) {
-                    classBuilder.addProperty(kotlinPropertyMaker.createProperty(parameter.value, parameter.key, mock = false, initializer = true, nullable = true))
-                } else if (parameter == java.lang.String::class.java || parameter == java.lang.Throwable::class.java) {
-                    classBuilder.addProperty(kotlinPropertyMaker.createProperty(parameter.value, parameter.key, mock = false, initializer = false, nullable = false))
+                if (parameter.value == java.lang.String::class.java || parameter.value == java.lang.Throwable::class.java || parameter.value.isPrimitive) {
+                    classBuilder.addProperty(kotlinPropertyMaker.createProperty(parameter.value, parameter.key, mock = false))
                 } else {
-                    classBuilder.addProperty(kotlinPropertyMaker.createProperty(parameter.value, parameter.key, mock = true, initializer = false, nullable = false))
+                    classBuilder.addProperty(kotlinPropertyMaker.createProperty(parameter.value, parameter.key, mock = true))
                 }
             }
         }
