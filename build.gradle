@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.5.10'
     id 'maven-publish'
     id 'signing'
+    id 'com.gradle.plugin-publish' version '0.16.0'
 }
 
 group 'io.github.orange-3'
@@ -89,8 +90,10 @@ publishing {
 gradlePlugin {
     plugins {
         unitTestArchitect {
+            displayName = 'Unit Test Architect'
             id = 'io.github.orange-3.unit-test-architect'
             implementationClass = 'io.github.orange3.unittestarchitect.EntryPlugin'
+            description =  'Unit Test Architect is an open source gradle plugin that helps you to automatically generate test cases of kotlin/java files using jUnit + Mockito.'
         }
     }
 }
@@ -104,4 +107,10 @@ javadoc {
     if(JavaVersion.current().isJava9Compatible()) {
         options.addBooleanOption('html5', true)
     }
+}
+
+pluginBundle {
+    website = 'https://github.com/OrangE-3/UnitTestArchitect'
+    vcsUrl = 'https://github.com/OrangE-3/UnitTestArchitect.git'
+    tags = ['android', 'kotlin', 'java', 'testing', 'unit testing', 'automation', 'test', 'kotlin android', 'kotlin library', 'android library', 'test automation', 'gradle plugin', 'mockito', 'junit', 'java library']
 }
