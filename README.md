@@ -1,4 +1,4 @@
-# UnitTestArchitect 
+# Unit Test Architect 
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.orange-3/unit-test-architect/badge.svg?)](https://maven-badges.herokuapp.com/maven-central/io.github.orange-3/unit-test-architect?)
 
@@ -19,7 +19,7 @@ with mocks and input fields + output fields per test case. It even adds an asser
 #### * Pure Kotlin Projects
 #### * Java + Kotlin Projects
 
-## Usage
+# Usage
 
 You'll need Mockito and junit dependencies for the test files to work. Add this in your module/app/project build.gradle
 ```
@@ -31,7 +31,7 @@ dependencies {
 }
 ```
 
-### 1. Android Projects
+## 1. Android Projects
 
 To use this plugin, add it the top of your root project's build.gradle:
 
@@ -102,7 +102,7 @@ To use the task, your project should be compiled.
 Usage of task : ./gradlew :library:generateTests
 ```
 
-### 2. Non-Android Projects
+## 2. Non-Android Projects
 
 To use this plugin, add it the top of your project's settings.gradle:
 
@@ -325,9 +325,7 @@ public class MyClassTest {
 ### It must be evident by now that this plugin writes so much code for you.
 ### Please note that the test cases will be generated only in kotlin for both java and kotlin files.
 
-## Open Issues
+## Minor Known Issues
 * Classes with generics are not supported. But the task will run and cases will be generated.
-* Some coroutine tests are generated for no reason.
-* Above cases will create compilation error in test files, but these can be addressed by the 
-developer himself.
+* Some coroutine tests and tests for var properties in classes are generated for no reason. They can be deleted by the developer.
 
