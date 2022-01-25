@@ -20,12 +20,24 @@ with mocks and input fields + output fields per test case. It even adds an asser
 #### * Java + Kotlin Projects
 
 ## Usage
-To use this plugin, add it to the buildscripts classpath:
+
+You'll need Mockito and junit dependencies for the test files to work. Add this in your module/app/project build.gradle
+```
+dependencies {
+    ...
+    testImplementation 'org.mockito.kotlin:mockito-kotlin:$MOCKITO_VERSION'
+    testImplementation 'junit:junit:$UNIT_VERSION'
+    ...
+}
+```
+
+### 1. Android Projects
+
+To use this plugin, add it the top of your root project's build.gradle:
 
 ```
 buildscript {
     repositories {
-        ...
         mavenCentral()
         ...
     }
@@ -37,7 +49,7 @@ buildscript {
 }
 ```
 
-And then add it as a plugin in your library gradle
+And then add it as a plugin in your library/ application build.gradle
 
 ```
 plugins {
@@ -78,20 +90,65 @@ tasks.register('generateTests', io.github.orange3.unittestarchitect.TestCaseGene
 }
 ```
 
-
-Please also set a ANDROID_SDK_DIRECTORY in your environment variables. This is not mandatory if you are not dealing with android. Non android consumers can skip this.
+Please also set a ANDROID_SDK_DIRECTORY in your environment variables.
 Example: 
 ```
 ANDROID_SDK_DIRECTORY = "/Users/rahulchoudhary/Library/Android/sdk/platforms/android-31"
 ```
 
-
-
-To use the task, your project should be compiled. This plugin is compatible with both java and android projects.
+To use the task, your project should be compiled.
 
 ```
 Usage of task : ./gradlew :library:generateTests
 ```
+
+### 2. Non-Android Projects
+
+To use this plugin, add it the top of your project's settings.gradle:
+
+```
+pluginManagement {
+    repositories {
+        mavenCentral()
+        maven { url "https://plugins.gradle.org/m2/" }
+        gradlePluginPortal()
+        mavenLocal()
+    }
+    plugins {
+        id 'io.github.orange-3.unit-test-architect' version("$LATEST_PLUGIN_VERSION")
+    }
+}
+```
+
+And then add it as a plugin in your build.gradle
+
+```
+plugins {
+  ...
+  id 'io.github.orange-3.unit-test-architect'
+  ...
+}
+```
+
+Finally, register this task:
+
+```
+tasks.register('generateTests', io.github.orange3.unittestarchitect.TestCaseGenerator) {
+    //directory to the compiled runtime classes
+    urls = sourceSets.main.runtimeClasspath.files.collect { it.toURI().toURL() } as URL[]
+    //directory list of your source
+    sourceDirectoryList = ["src/main"]
+    // If needed, you can exclude directories or files using this
+    exclude = []
+}
+```
+
+To use the task, your project should be compiled.
+
+```
+Usage of task : ./gradlew :generateTests
+```
+
 
 ## Example File: module/src/someFolder/java/
 ```
