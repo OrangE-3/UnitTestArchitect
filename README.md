@@ -1,6 +1,8 @@
 # Unit Test Architect 
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.orange-3/unit-test-architect/badge.svg?)](https://maven-badges.herokuapp.com/maven-central/io.github.orange-3/unit-test-architect?)
+[![Gradle Plugin Portal](https://img.shields.io/gradle-plugin-portal/v/io.github.orange-3.unit-test-architect?)](https://plugins.gradle.org/plugin/io.github.orange-3.unit-test-architect?)
+[![GitHub](https://img.shields.io/github/license/OrangE-3/UnitTestArchitect?)](https://github.com/OrangE-3/UnitTestArchitect/blob/main/LICENSE?)
 
 This is a gradle plugin that helps you to generate boilerplate code for writing jUnit + Mockito Test Cases.
 
@@ -104,28 +106,12 @@ Usage of task : ./gradlew :library:generateTests
 
 ## 2. Non-Android Projects
 
-To use this plugin, add it the top of your project's settings.gradle:
-
-```
-pluginManagement {
-    repositories {
-        mavenCentral()
-        maven { url "https://plugins.gradle.org/m2/" }
-        gradlePluginPortal()
-        mavenLocal()
-    }
-    plugins {
-        id 'io.github.orange-3.unit-test-architect' version("$LATEST_PLUGIN_VERSION")
-    }
-}
-```
-
-And then add it as a plugin in your build.gradle
+To use this plugin, add it as a plugin in your build.gradle
 
 ```
 plugins {
   ...
-  id 'io.github.orange-3.unit-test-architect'
+  id 'io.github.orange-3.unit-test-architect' version("$LATEST_LIBRARY_VERSION")
   ...
 }
 ```
