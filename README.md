@@ -23,6 +23,10 @@ with mocks and input fields + output fields per test case. It even adds an asser
 * Java + Kotlin Projects
 
 <br>
+
+Jump directly to example's [Generated Output](#output-file)
+
+<br>
 <br>
 <br>
 <br>
