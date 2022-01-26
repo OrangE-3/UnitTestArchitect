@@ -32,9 +32,10 @@ dependencies {
     ...
 }
 ```
-
 ## 1. Android Projects
-
+<details>
+<summary>Click to Show Steps </summary>
+<br>
 To use this plugin, add it the top of your root project's build.gradle:
 
 ```
@@ -103,9 +104,12 @@ To use the task, your project should be compiled.
 ```
 Usage of task : ./gradlew :library:generateTests
 ```
+</details>
 
 ## 2. Non-Android Projects
-
+<details>
+<summary>Click to Show Steps </summary>
+<br>
 To use this plugin, add it as a plugin in your build.gradle
 
 ```
@@ -134,7 +138,7 @@ To use the task, your project should be compiled.
 ```
 Usage of task : ./gradlew :generateTests
 ```
-
+</details>
 
 ## Example File: module/src/someFolder/java/
 ```
