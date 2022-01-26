@@ -32,9 +32,6 @@ dependencies {
 }
 ```
 ## Android Project
-<details>
-<summary>Click to reveal</summary>
-<br>
 To use this plugin, add it the top of your root project's build.gradle:
 
 ```groovy
@@ -98,12 +95,8 @@ To use the task, your project should be compiled.
 ```bash
 Usage of task : ./gradlew :library:generateTests
 ```
-</details>
 
 ## Non-Android Project
-<details>
-<summary>Click to reveal</summary>
-<br>
 To use this plugin, add it as a plugin in your build.gradle
 
 ```groovy
@@ -130,7 +123,6 @@ To use the task, your project should be compiled.
 ```bash
 Usage of task : ./gradlew :generateTests
 ```
-</details>
 
 
 # Example
@@ -141,10 +133,7 @@ It will generate and paste boilerplate test classes of any new code without affe
 Hence, it's more useful in projects where unit testing was not in scope earlier, but now you want to write tests for older code.
 The more the number of untested files in your code, the more useful this plugin gets.
 
-## Input File 
-<details>
-<summary>Click to reveal</summary>
-<br>
+## Input File
 
 Present in module/src/someFolder/java/
 ```kotlin
@@ -188,12 +177,8 @@ class MyClass(
    
 }
 ```
-</details>
 
-## Dependency Classes 
-<details>
-<summary>Click to reveal</summary>
-<br>
+## Dependency Classes
 
 ```kotlin
 package foo.bar.tom.models
@@ -227,13 +212,8 @@ public class AnotherResponse(
 ) {
 }
 ```
-</details>
 
 ## Output File
-<details>
-<summary>Click to reveal</summary>
-<br>
-
 Generated in module/src/testSomeFolder/java/
 
 ```kotlin
@@ -323,8 +303,6 @@ public class MyClassTest {
 ```
 It must be evident by now that this plugin writes so much code for you.
 Please note that the test cases will be generated only in kotlin for both java and kotlin files.
-
-</details>
 
 # Minor Known Issues
 
