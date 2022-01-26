@@ -24,12 +24,10 @@ with mocks and input fields + output fields per test case. It even adds an asser
 # Usage
 
 You'll need Mockito and junit dependencies for the test files to work. Add this in your module/app/project build.gradle
-```
+```groovy
 dependencies {
-    ...
     testImplementation 'org.mockito.kotlin:mockito-kotlin:$MOCKITO_VERSION'
     testImplementation 'junit:junit:$UNIT_VERSION'
-    ...
 }
 ```
 ## 1. Android Projects
@@ -38,34 +36,29 @@ dependencies {
 <br>
 To use this plugin, add it the top of your root project's build.gradle:
 
-```
+```groovy
 buildscript {
     repositories {
         mavenCentral()
-        ...
     }
     dependencies {
-        ...
-        classpath "io.github.orange-3:unit-test-architect:$LATEST_LIBRARY_VERSION"
-        ...
+        classpath "io.github.orange-3:unit-test-architect:$LIBRARY_VERSION_MAVEN_CENTRAL"
     }
 }
 ```
 
 And then add it as a plugin in your library/ application build.gradle
 
-```
+```groovy
 plugins {
-  ...
   id 'io.github.orange-3.unit-test-architect'
-  ...
 }
 ```
 
 Finally, register this task:
 You can give source folders and exclude directories of which you don't want test cases to be generated.
 
-```
+```groovy
 tasks.register('generateTests', io.github.orange3.unittestarchitect.TestCaseGenerator) {
     // Use android.applicationVariants.each for application modules
     android.libraryVariants.each { variant ->
@@ -95,13 +88,13 @@ tasks.register('generateTests', io.github.orange3.unittestarchitect.TestCaseGene
 
 Please also set a ANDROID_SDK_DIRECTORY in your environment variables.
 Example: 
-```
+```txt
 ANDROID_SDK_DIRECTORY = "/Users/rahulchoudhary/Library/Android/sdk/platforms/android-31"
 ```
 
 To use the task, your project should be compiled.
 
-```
+```bash
 Usage of task : ./gradlew :library:generateTests
 ```
 </details>
@@ -112,17 +105,15 @@ Usage of task : ./gradlew :library:generateTests
 <br>
 To use this plugin, add it as a plugin in your build.gradle
 
-```
+```groovy
 plugins {
-  ...
   id 'io.github.orange-3.unit-test-architect' version("$LATEST_LIBRARY_VERSION")
-  ...
 }
 ```
 
 Finally, register this task:
 
-```
+```groovy
 tasks.register('generateTests', io.github.orange3.unittestarchitect.TestCaseGenerator) {
     //directory to the compiled runtime classes
     urls = sourceSets.main.runtimeClasspath.files.collect { it.toURI().toURL() } as URL[]
@@ -135,13 +126,13 @@ tasks.register('generateTests', io.github.orange3.unittestarchitect.TestCaseGene
 
 To use the task, your project should be compiled.
 
-```
+```bash
 Usage of task : ./gradlew :generateTests
 ```
 </details>
 
 ## Example File: module/src/someFolder/java/
-```
+```kotlin
 package foo.bar.tom.files
 
 
@@ -186,35 +177,35 @@ class MyClass(
 This will generate and paste boilerplate test classes of any new code without affecting existing test classes.
 Hence, it's more useful in projects where unit testing was not in scope earlier, but now you want to write testes for older code. 
 The more the number of untested files in your code, the more useful this plugin gets.
+## Dependency Classes 
 
-```
+```kotlin
 package foo.bar.tom.models
-import ...
+
 data class SomeRequest(
     val integer: Int,
     val someClass: SomeClass
 )
 ```
-```
+```kotlin
 package foo.bar.tom.models
-import ...
+
 data class SomeResponse(
     val double: Double
 )
 ```
-```
+```kotlin
 package foo.bar.tom.classes
-import ...
+
 public class SomeClass(
-    val data: String,
-    ...
+    val data: String
 ) {
-//Some Class Logic
+    //Some Class Logic
 }
 ```
-```
+```kotlin
 package foo.bar.tom.classes
-import ...
+
 public class AnotherResponse(
     //Empty Constructor
 ) {
@@ -226,7 +217,7 @@ generate all required intermediate test objects!
 ## Example Output: module/src/testSomeFolder/java/
 ### Classes Like this one, compilable, will be generated in your project's test folders.
 
-```
+``` kotlin
 package foo.bar.tom.files
 
 import foo.bar.tom.models.SomeRequest
