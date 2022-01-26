@@ -3,7 +3,7 @@
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.orange-3/unit-test-architect/badge.svg?)](https://maven-badges.herokuapp.com/maven-central/io.github.orange-3/unit-test-architect?)
 [![Gradle Plugin Portal](https://img.shields.io/gradle-plugin-portal/v/io.github.orange-3.unit-test-architect?)](https://plugins.gradle.org/plugin/io.github.orange-3.unit-test-architect?)
 [![GitHub](https://img.shields.io/github/license/OrangE-3/UnitTestArchitect?)](https://github.com/OrangE-3/UnitTestArchitect/blob/main/LICENSE?)
-
+---
 This is a gradle plugin that helps you to generate boilerplate code for writing jUnit + Mockito Test Cases.
 
 Any existing IDEs such as IntelliJ or Android Studio, will generate test cases but only per method per file. 
@@ -21,7 +21,10 @@ with mocks and input fields + output fields per test case. It even adds an asser
 #### * Pure Kotlin Projects
 #### * Java + Kotlin Projects
 
+
 # Usage
+
+---
 
 You'll need Mockito and junit dependencies for the test files to work. Add this in your module/app/project build.gradle
 ```groovy
@@ -30,9 +33,9 @@ dependencies {
     testImplementation 'junit:junit:$UNIT_VERSION'
 }
 ```
-## 1. Android Projects
+## Android Project
 <details>
-<summary>Click to Show Steps </summary>
+<summary>Click to reveal</summary>
 <br>
 To use this plugin, add it the top of your root project's build.gradle:
 
@@ -99,9 +102,9 @@ Usage of task : ./gradlew :library:generateTests
 ```
 </details>
 
-## 2. Non-Android Projects
+## Non-Android Project
 <details>
-<summary>Click to Show Steps </summary>
+<summary>Click to reveal</summary>
 <br>
 To use this plugin, add it as a plugin in your build.gradle
 
@@ -131,7 +134,21 @@ Usage of task : ./gradlew :generateTests
 ```
 </details>
 
-## Example File: module/src/someFolder/java/
+
+# Example
+
+---
+What the logic will do, is it will perform Graph Search operations on parameters and
+generate all required intermediate test objects! 
+It will generate and paste boilerplate test classes of any new code without affecting existing test classes.
+Hence, it's more useful in projects where unit testing was not in scope earlier, but now you want to write tests for older code.
+The more the number of untested files in your code, the more useful this plugin gets.
+
+## Input File 
+<details>
+<summary>Click to reveal</summary>
+
+Present in module/src/someFolder/java/
 ```kotlin
 package foo.bar.tom.files
 
@@ -173,11 +190,12 @@ class MyClass(
    
 }
 ```
+</details>
 
-This will generate and paste boilerplate test classes of any new code without affecting existing test classes.
-Hence, it's more useful in projects where unit testing was not in scope earlier, but now you want to write testes for older code. 
-The more the number of untested files in your code, the more useful this plugin gets.
 ## Dependency Classes 
+<details>
+<summary>Click to reveal</summary>
+
 
 ```kotlin
 package foo.bar.tom.models
@@ -211,13 +229,15 @@ public class AnotherResponse(
 ) {
 }
 ```
-What the logic will do, is it will perform Graph Search operations on parameters and
-generate all required intermediate test objects!
+</details>
 
-## Example Output: module/src/testSomeFolder/java/
-### Classes Like this one, compilable, will be generated in your project's test folders.
+## Output File
+<details>
+<summary>Click to reveal</summary>
 
-``` kotlin
+Generated in module/src/testSomeFolder/java/
+
+```kotlin
 package foo.bar.tom.files
 
 import foo.bar.tom.models.SomeRequest
@@ -302,11 +322,14 @@ public class MyClassTest {
 }
 
 ```
+It must be evident by now that this plugin writes so much code for you.
+Please note that the test cases will be generated only in kotlin for both java and kotlin files.
 
-### It must be evident by now that this plugin writes so much code for you.
-### Please note that the test cases will be generated only in kotlin for both java and kotlin files.
+</details>
 
-## Minor Known Issues
+# Minor Known Issues
+
+---
 * Classes with generics are not supported. But the task will run and cases will be generated.
 * Some coroutine tests and tests for var properties in classes are generated for no reason. They can be deleted by the developer.
 
