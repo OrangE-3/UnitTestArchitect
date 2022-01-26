@@ -108,7 +108,7 @@ To use this plugin, add it as a plugin in your build.gradle
 
 ```groovy
 plugins {
-  id 'io.github.orange-3.unit-test-architect' version("$LATEST_LIBRARY_VERSION")
+  id 'io.github.orange-3.unit-test-architect' version("$LIBRARY_VERSION_PLUGIN_PORTAL")
 }
 ```
 
