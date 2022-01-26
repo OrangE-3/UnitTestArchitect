@@ -24,6 +24,9 @@ with mocks and input fields + output fields per test case. It even adds an asser
 <br>
 <br>
 <br>
+<br>
+
+---
 
 # Usage
 
@@ -34,7 +37,6 @@ dependencies {
     testImplementation 'junit:junit:$UNIT_VERSION'
 }
 ```
-<br>
 <br>
 
 ## Android Project
@@ -103,6 +105,7 @@ Usage of task : ./gradlew :library:generateTests
 ```
 <br>
 <br>
+<br>
 
 ## Non-Android Project
 To use this plugin, add it as a plugin in your build.gradle
@@ -135,6 +138,9 @@ Usage of task : ./gradlew :generateTests
 <br>
 <br>
 <br>
+<br>
+
+---
 
 # Example
 
@@ -144,7 +150,6 @@ It will generate and paste boilerplate test classes of any new code without affe
 Hence, it's more useful in projects where unit testing was not in scope earlier, but now you want to write tests for older code.
 The more the number of untested files in your code, the more useful this plugin gets.
 
-<br>
 <br>
 
 ## Input File
@@ -194,6 +199,7 @@ class MyClass(
 
 <br>
 <br>
+<br>
 
 ## Dependency Classes
 
@@ -230,6 +236,7 @@ public class AnotherResponse(
 }
 ```
 
+<br>
 <br>
 <br>
 
@@ -327,6 +334,9 @@ Please note that the test cases will be generated only in kotlin for both java a
 <br>
 <br>
 <br>
+<br>
+
+---
 
 # Minor Known Issues
 
