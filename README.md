@@ -3,7 +3,7 @@
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.orange-3/unit-test-architect/badge.svg?)](https://maven-badges.herokuapp.com/maven-central/io.github.orange-3/unit-test-architect?)
 [![Gradle Plugin Portal](https://img.shields.io/gradle-plugin-portal/v/io.github.orange-3.unit-test-architect?)](https://plugins.gradle.org/plugin/io.github.orange-3.unit-test-architect?)
 [![GitHub](https://img.shields.io/github/license/OrangE-3/UnitTestArchitect?)](https://github.com/OrangE-3/UnitTestArchitect/blob/main/LICENSE?)
----
+
 This is a gradle plugin that helps you to generate boilerplate code for writing jUnit + Mockito Test Cases.
 
 Any existing IDEs such as IntelliJ or Android Studio, will generate test cases but only per method per file. 
@@ -23,8 +23,6 @@ with mocks and input fields + output fields per test case. It even adds an asser
 
 
 # Usage
-
----
 
 You'll need Mockito and junit dependencies for the test files to work. Add this in your module/app/project build.gradle
 ```groovy
@@ -137,7 +135,6 @@ Usage of task : ./gradlew :generateTests
 
 # Example
 
----
 What the logic will do, is it will perform Graph Search operations on parameters and
 generate all required intermediate test objects! 
 It will generate and paste boilerplate test classes of any new code without affecting existing test classes.
@@ -329,7 +326,6 @@ Please note that the test cases will be generated only in kotlin for both java a
 
 # Minor Known Issues
 
----
 * Classes with generics are not supported. But the task will run and cases will be generated.
 * Some coroutine tests and tests for var properties in classes are generated for no reason. They can be deleted by the developer.
 
