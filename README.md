@@ -14,12 +14,13 @@ each dependency in your class.
 This is where you can use this plugin to reduce developer time. This Plugin generates actual test case code along 
 with mocks and input fields + output fields per test case. It even adds an assertion to your method invoke!
 
+<br>
 
-#### Major advantage of using this plugin is that it is language agnostic. It supports:
-#### * Android Projects
-#### * Pure Java Projects
-#### * Pure Kotlin Projects
-#### * Java + Kotlin Projects
+#### It supports:
+* Android Projects
+* Pure Java Projects
+* Pure Kotlin Projects
+* Java + Kotlin Projects
 
 <br>
 <br>
