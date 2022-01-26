@@ -144,6 +144,7 @@ The more the number of untested files in your code, the more useful this plugin 
 ## Input File 
 <details>
 <summary>Click to reveal</summary>
+<br>
 
 Present in module/src/someFolder/java/
 ```kotlin
@@ -192,7 +193,7 @@ class MyClass(
 ## Dependency Classes 
 <details>
 <summary>Click to reveal</summary>
-
+<br>
 
 ```kotlin
 package foo.bar.tom.models
@@ -231,6 +232,7 @@ public class AnotherResponse(
 ## Output File
 <details>
 <summary>Click to reveal</summary>
+<br>
 
 Generated in module/src/testSomeFolder/java/
 
